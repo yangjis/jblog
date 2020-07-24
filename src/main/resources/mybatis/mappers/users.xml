@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="users">
+	
+	<select id="idcheck" parameterType="String" resultType="com.javaex.vo.UsersVo">
+		<![CDATA[
+		select id from users where id = #{id}
+		]]>
+	</select>
+	
+	<insert id="userInsert" parameterType="com.javaex.vo.UsersVo">
+		<![CDATA[
+		insert into users values(seq_users_no.nextval, #{id}, #{userName}, #{password}, sysdate)
+		]]>
+	</insert>
+	
+	<select id="login" parameterType="com.javaex.vo.UsersVo" resultType="com.javaex.vo.UsersVo">
+		<![CDATA[
+		select u.userNo userNo, 
+			   u.id id,
+			   u.userName userName, 
+			   u.joinDate joinDate, 
+			   b.blogTitle blogTitle 
+		from users u, blog b 
+		where u.id = b.id 
+		and u.id=#{id} 
+		and u.password=#{password}
+		]]>
+	</select>
+	
+	<select id="getUserName" parameterType="String" resultType="String">
+		<![CDATA[
+			select userName from users where id = #{id}
+		]]>
+	</select>
+	
+	
+	
+</mapper>

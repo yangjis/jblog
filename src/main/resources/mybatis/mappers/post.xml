@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="post">
+	
+	<select id="getPost" parameterType = "int" resultType="com.javaex.vo.PostVo">
+		<![CDATA[
+			select postNo, cateNo, postTitle, postContent, regDate from post where cateNo=#{max} and postNo=(select max(postNo) from post)
+		]]>
+	</select>
+	
+	<insert id="postWrite" parameterType = "com.javaex.vo.PostVo">
+		<![CDATA[
+		insert into post values(seq_post_no.nextval, #{cateNo}, #{postTitle},#{postContent}, sysdate)
+		]]>
+	</insert>
+	
+	<select id="postList" parameterType = "int" resultType="com.javaex.vo.PostVo">
+		<![CDATA[
+		select postNo, cateNo, postTitle, postContent, to_char(regDate, 'YYYY/MM/dd') regDate from post where cateNo = #{max} order by regDate desc
+		]]>
+	</select>
+</mapper>
