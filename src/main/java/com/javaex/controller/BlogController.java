@@ -47,7 +47,6 @@ public class BlogController {
 		List<CategoryVo> cateList = categoryService.list(id); 
 		
 		PostVo getPost = postService.getPost(categoryService.maxCategory(id));
-		System.out.println(getPost.toString());
 		
 		List<PostVo> postList = postService.postList(categoryService.maxCategory(id));
 		

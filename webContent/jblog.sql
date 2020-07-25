@@ -40,7 +40,7 @@ create table post(
     postNo          number,
     cateNo          number ,
     postTitle       varchar2(300) not null,
-    postContent     varchar2(400),
+    postContent     varchar2(4000),
     regDate         date not null,
     PRIMARY KEY (postNo),
     CONSTRAINT c_cateNo_fk foreign key(cateNo)
