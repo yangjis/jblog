@@ -24,7 +24,7 @@ public class PostService {
 			System.out.println("카테고리값과 포스트값이 둘 다 있을 경우"); 
 			return postDao.selectPost(postVo); 
 		}else if(postVo.getCateNo() != 0){
-			System.out.println("카테고리 파람값만 있을 경우");
+			System.out.println("카테고리값만 있을 경우");
 			postVo.setPostNo(postDao.maxPostNo(postVo.getCateNo()));
 			return postDao.selectPost(postVo); 
 		}else{ 

@@ -17,7 +17,7 @@ import com.javaex.vo.BlogVo;
 public class BlogService {
 	
 	@Autowired
-	BlogDao blogDao;
+	private BlogDao blogDao;
 	
 	public BlogVo blogInformation(String id) {
 		return blogDao.blogInformation(id);
