@@ -22,11 +22,11 @@
 			GROUP BY cateNo)p
 		where c.cateNo = p.cateNo(+)
 		and id = #{id} 
-		order by regDate desc
+		order by cateNo desc
 		]]>
 	</select>
 	
-	<select id="maxCategory" resultType ="int" parameterType="String">
+	<select id="maxCategoryNo" resultType ="int" parameterType="String">
 		<![CDATA[
 			select max(cateNo) max from category where id = #{id}
 		]]>

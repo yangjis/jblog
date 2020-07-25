@@ -18,12 +18,12 @@ public class CategoryDao {
 		return sqlSession.insert("category.categoryInsert", categoryVo);
 	}
 	
-	public List<CategoryVo> list(String id){
+	public List<CategoryVo> cateList(String id){
 		return sqlSession.selectList("category.cateList", id);
 	}
 	
-	public int maxCategory(String id) {
-		return sqlSession.selectOne("category.maxCategory", id);
+	public int maxCategoryNo(String id) {
+		return sqlSession.selectOne("category.maxCategoryNo", id);
 	}
 	
 	public int cateInsert(CategoryVo categoryVo) {

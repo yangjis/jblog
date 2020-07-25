@@ -14,17 +14,17 @@ public class CategoryService {
 	@Autowired
 	private CategoryDao categoryDao;
 	
-	public List<CategoryVo> list(String id){
-		return categoryDao.list(id);
+	public List<CategoryVo> cateList(String id){
+		return categoryDao.cateList(id);
 	}
 	
 	public int maxCategory(String id) {
-		return categoryDao.maxCategory(id);
+		return categoryDao.maxCategoryNo(id);
 	}
 	
 	public CategoryVo cateInsert(CategoryVo categoryVo) {
 		categoryDao.cateInsert(categoryVo);
-		int cateNo = categoryDao.maxCategory(categoryVo.getId()); 
+		int cateNo = categoryDao.maxCategoryNo(categoryVo.getId()); 
 		
 		categoryVo.setCateNo(cateNo);
 		return categoryDao.getCategory(categoryVo); 

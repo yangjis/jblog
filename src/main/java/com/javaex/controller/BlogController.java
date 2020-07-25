@@ -45,7 +45,7 @@ public class BlogController {
 		}
 		
 		model.addAttribute("blogVo", blogService.blogInformation(id));
-		model.addAttribute("cateList", categoryService.list(id));
+		model.addAttribute("cateList", categoryService.cateList(id));
 		model.addAttribute("postVo", postService.getPost(postVo, id));
 		model.addAttribute("userName", userService.getUserName(id));
 		model.addAttribute("postList", postService.postList(id, postVo));

@@ -39,7 +39,7 @@ public class UsersController {
 	
 	@RequestMapping("/login")
 	public String login(@ModelAttribute UsersVo userVo, HttpSession session) {
-		System.out.println("로그인 :" + userVo.toString());
+		System.out.println("로그인 ");
 		
 		UsersVo authUser = userService.login(userVo); 
 		

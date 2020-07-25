@@ -62,7 +62,7 @@ public class AdminController {
 		}
 		System.out.println("관리자 블로그 기본설정변경 페이지");
 		
-		blogService.blogModify(blogService.imgInsert(blogVo, file), id);
+		blogService.blogModify(blogVo, file, id);
 		
 		return "redirect:/"+id;
 	}
@@ -80,7 +80,7 @@ public class AdminController {
 		
 		
 		model.addAttribute("blogVo", blogService.blogInformation(id));
-		model.addAttribute("cataList", categoryService.list(id));
+		model.addAttribute("cataList", categoryService.cateList(id));
 		return "/blog/admin/blog-admin-cate";
 	}
 	
@@ -95,7 +95,7 @@ public class AdminController {
 			}
 		}
 		
-		model.addAttribute("cateVo", categoryService.list(id));
+		model.addAttribute("cateVo", categoryService.cateList(id));
 		model.addAttribute("blogVo", blogService.blogInformation(id));
 		return "/blog/admin/blog-admin-write";
 	}

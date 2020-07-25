@@ -23,7 +23,15 @@ public class BlogService {
 		return blogDao.blogInformation(id);
 	}
 	
-	public BlogVo imgInsert(BlogVo blogVo, MultipartFile file ) {
+	public int blogModify(BlogVo blogVo, MultipartFile file, String id) {
+		
+		if(file.getSize() == 0) {
+			BlogVo saveBlogValue = blogDao.blogInformation(id);
+			blogVo.setLogoFile(saveBlogValue.getLogoFile());
+			blogVo.setId(id);
+			
+		}else {
+		
 			///// 데이터 추출 //////////////////////////////////
 			String saveDir = "C:\\javaStudy\\upload";
 				
@@ -57,11 +65,8 @@ public class BlogService {
 			}
 			blogVo.setLogoFile(saveName);
 			
-			return blogVo;
-	}
-	
-	public int blogModify(BlogVo blogVo, String id) {
-		blogVo.setId(id);
+			blogVo.setId(id);
+		}
 		return blogDao.blogModify(blogVo);
 	}
 

@@ -29,7 +29,7 @@ public class PostService {
 			return postDao.selectPost(postVo); 
 		}else{ 
 			System.out.println("파람값없음."); 
-			return postDao.getPost(categoryDao.maxCategory(id));
+			return postDao.getPost(categoryDao.maxCategoryNo(id));
 		}
 	}
 	
@@ -40,7 +40,7 @@ public class PostService {
 	
 	public List<PostVo> postList(String id, PostVo postVo) {
 		if(postVo.getCateNo() != 0) return postDao.postList(postVo.getCateNo());
-		else return postDao.postList(categoryDao.maxCategory(id));
+		else return postDao.postList(categoryDao.maxCategoryNo(id));
 	}
 
 }

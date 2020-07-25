@@ -66,13 +66,10 @@
 	<!-- //wrap -->
 </body>
 <script type="text/javascript">
-	/* $("#btnSubmit").on("click", function(){
-		var logo = $("#textLogo").val();
-		
-		if(logo == null){
-			$("#testLogo").val("${requestScope.blogVo.logoFile}");
-		}
-	}); */
-	
+	var fileCheck = document.getElementById("textLogo").value;
+	if(!fileCheck){
+	    alert("파일을 첨부해 주세요");
+	    return false;
+	}
 </script>
 </html>
