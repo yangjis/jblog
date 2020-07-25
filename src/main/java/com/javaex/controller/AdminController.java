@@ -1,7 +1,5 @@
 package com.javaex.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +15,6 @@ import com.javaex.service.BlogService;
 import com.javaex.service.CategoryService;
 import com.javaex.service.PostService;
 import com.javaex.vo.BlogVo;
-import com.javaex.vo.CategoryVo;
 import com.javaex.vo.PostVo;
 import com.javaex.vo.UsersVo;
 
@@ -36,20 +33,17 @@ public class AdminController {
 	
 	@RequestMapping("/basic")
 	public String basic(Model model, @PathVariable String id, HttpSession session) {
-		System.out.println("블로그 관리자 기본 페이지");
 		
-		if(session == null || session.equals(null)) {
-			return "/error/403";
-		}else {
+		if(session == null || session.equals(null)) return "/error/403";
+		else {
 			UsersVo loginUser = (UsersVo) session.getAttribute("authUser");
 			if(!loginUser.getId().equals(id)) {
 				return "/error/403";
 			}
 		}
+		System.out.println("블로그 관리자 기본 페이지");
 
-		BlogVo blogVo = blogService.blogInformation(id);
-		
-		model.addAttribute("blogVo", blogVo);
+		model.addAttribute("blogVo", blogService.blogInformation(id));
 		return "/blog/admin/blog-admin-basic";
 	}
 	
@@ -59,68 +53,58 @@ public class AdminController {
 							 @PathVariable String id,
 							 HttpSession session) {
 		
-		if(session == null || session.equals(null)) {
-			return "/error/403";
-		}else {
+		if(session == null || session.equals(null)) return "/error/403";
+		else {
 			UsersVo loginUser = (UsersVo) session.getAttribute("authUser");
 			if(!loginUser.getId().equals(id)) {
 				return "/error/403";
 			}
 		}
-		
 		System.out.println("관리자 블로그 기본설정변경 페이지");
 		
 		blogService.blogModify(blogService.imgInsert(blogVo, file), id);
 		
-		return "redirect:/"+id+"/";
+		return "redirect:/"+id;
 	}
 	
 	@RequestMapping("/category")
 	public String category(Model model, @PathVariable String id, HttpSession session) {
 		
-		if(session == null || session.equals(null)) {
-			return "/error/403";
-		}else {
+		if(session == null || session.equals(null))return "/error/403";
+		else {
 			UsersVo loginUser = (UsersVo) session.getAttribute("authUser");
 			if(!loginUser.getId().equals(id)) {
 				return "/error/403";
 			}
 		}
 		
-		BlogVo blogVo = blogService.blogInformation(id);
-		List<CategoryVo> cataList = categoryService.list(id);
 		
-		model.addAttribute("blogVo", blogVo);
-		model.addAttribute("cataList", cataList);
+		model.addAttribute("blogVo", blogService.blogInformation(id));
+		model.addAttribute("cataList", categoryService.list(id));
 		return "/blog/admin/blog-admin-cate";
 	}
 	
 	@RequestMapping("/writeForm")
 	public String writeForm(Model model, @PathVariable String id, HttpSession session) {
 		
-		if(session == null || session.equals(null)) {
-			return "/error/403";
-		}else {
+		if(session == null || session.equals(null)) return "/error/403";
+		else {
 			UsersVo loginUser = (UsersVo) session.getAttribute("authUser");
 			if(!loginUser.getId().equals(id)) {
 				return "/error/403";
 			}
 		}
 		
-		List<CategoryVo> categoryVo = categoryService.list(id);
-		BlogVo blogVo = blogService.blogInformation(id);
-		
-		model.addAttribute("cateVo", categoryVo);
-		model.addAttribute("blogVo", blogVo);
+		model.addAttribute("cateVo", categoryService.list(id));
+		model.addAttribute("blogVo", blogService.blogInformation(id));
 		return "/blog/admin/blog-admin-write";
 	}
 	
 	@RequestMapping("/write")
 	public String write(@ModelAttribute PostVo postVo, @PathVariable String id, HttpSession session) {
 		
-		if(session == null || session.equals(null)) {
-			return "/error/403";
-		}else {
+		if(session == null || session.equals(null)) return "/error/403";
+		else {
 			UsersVo loginUser = (UsersVo) session.getAttribute("authUser");
 			if(!loginUser.getId().equals(id)) {
 				return "/error/403";
@@ -130,7 +114,7 @@ public class AdminController {
 		System.out.println("포스트 등록");
 		postService.postWrite(postVo, id);
 		
-		return "redirect:/"+id+"/"; 
+		return "redirect:/"+id; 
 	}
 	
 }

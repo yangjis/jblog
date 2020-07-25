@@ -35,7 +35,7 @@
 					</div>
 					<ul id="cateList" class="text-left">
 						<c:forEach items="${cateList}" var="cateVo">
-							<li><a href="${pageContext.request.contextPath}/${blogVo.id}?crtCateNo=${cateVo.cateNo}">${cateVo.cateName}</a></li>
+							<li><a href="${pageContext.request.contextPath}/${blogVo.id}?cateNo=${cateVo.cateNo}">${cateVo.cateName}</a></li>
 						</c:forEach>
 					</ul>
 				</div>
@@ -79,7 +79,7 @@
 						</colgroup>
 						<c:forEach items="${postList}" var="postVo">
 							<tr>
-								<td class="text-left"><a href="${pageContext.request.contextPath}/${blogVo.id}?crtCateNo=${param.crtCateNo}&postNo=${postVo.postNo}">${postVo.postTitle}</a></td>
+								<td class="text-left"><a href="${pageContext.request.contextPath}/${blogVo.id}?cateNo=${postVo.cateNo}&postNo=${postVo.postNo}">${postVo.postTitle}</a></td>
 								<td class="text-right">${postVo.regDate}</td>
 							</tr>
 						</c:forEach>
@@ -99,8 +99,5 @@
 	</div>
 	<!-- //wrap -->
 </body>
-<script type="text/javascript">
-console.log("${sessionScope.blogVo}");
-</script>
 
 </html>

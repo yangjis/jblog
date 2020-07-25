@@ -26,4 +26,12 @@ public class PostDao {
 	public List<PostVo> postList(int max){
 		return sqlSession.selectList("post.postList", max);
 	}
+	
+	public PostVo selectPost(PostVo postVo) {
+		return sqlSession.selectOne("post.selectPost", postVo);
+	}
+	
+	public int maxPostNo(int cateNo) {
+		return sqlSession.selectOne("post.maxPostNo", cateNo);
+	}
 }

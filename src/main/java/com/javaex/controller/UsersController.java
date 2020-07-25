@@ -32,9 +32,8 @@ public class UsersController {
 	@RequestMapping("/join")
 	public String join(@ModelAttribute UsersVo userVo) {
 		System.out.println("가입완료 페이지");
-		int success = userService.join(userVo);
 		
-		if(success == 1) return "/user/joinSuccess";
+		if(userService.join(userVo) == 1) return "/user/joinSuccess";
 		else return "redirect:/user/joinform";
 	}
 	

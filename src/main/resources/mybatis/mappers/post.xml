@@ -4,7 +4,7 @@
 	
 	<select id="getPost" parameterType = "int" resultType="com.javaex.vo.PostVo">
 		<![CDATA[
-			select postNo, cateNo, postTitle, postContent, regDate from post where cateNo=#{max} and postNo=(select max(postNo) from post)
+			select postNo, cateNo, postTitle, postContent, to_char(regDate, 'YYYY/MM/dd') regDate from post where cateNo=#{max} and postNo=(select max(postNo) from post)
 		]]>
 	</select>
 	
@@ -16,7 +16,19 @@
 	
 	<select id="postList" parameterType = "int" resultType="com.javaex.vo.PostVo">
 		<![CDATA[
-		select postNo, cateNo, postTitle, postContent, to_char(regDate, 'YYYY/MM/dd') regDate from post where cateNo = #{max} order by regDate desc
+		select postNo, cateNo, postTitle, postContent, to_char(regDate, 'YYYY/MM/dd') regDate from post where cateNo = #{max} order by postNo desc
+		]]>
+	</select>
+	
+	<select id="selectPost" parameterType="com.javaex.vo.PostVo" resultType="com.javaex.vo.PostVo">
+		<![CDATA[
+		select postNo, cateNo, postTitle, postContent, to_char(regDate, 'YYYY/MM/dd') regDate from post where cateNo = #{cateNo} and postNo = #{postNo}
+		]]>
+	</select>
+	
+	<select id="maxPostNo" parameterType="int" resultType="int">
+		<![CDATA[
+		select max(postNo) from post where cateNo = #{cateNo}
 		]]>
 	</select>
 </mapper>

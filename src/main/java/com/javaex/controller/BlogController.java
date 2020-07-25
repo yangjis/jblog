@@ -2,11 +2,15 @@ package com.javaex.controller;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ObjectUtils;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.javaex.service.BlogService;
 import com.javaex.service.CategoryService;
@@ -32,29 +36,21 @@ public class BlogController {
 	@Autowired
 	private UserService userService;
 	
-	@RequestMapping("/")
-	public String BlogMain(@PathVariable String id, Model model) {
+	@RequestMapping("")
+	public String BlogMain(@PathVariable String id, Model model, @ModelAttribute("getPost") PostVo postVo) {
 		System.out.println("블로그 메인");
 		
-		boolean idcheck = userService.idcheck(id);
-		
-		if(idcheck == true) {
+		if(userService.idcheck(id) == true) {
 			return "/error/403";
 		}
 		
-		BlogVo blogVo = blogService.blogInformation(id);
-		
-		List<CategoryVo> cateList = categoryService.list(id); 
-		
-		PostVo getPost = postService.getPost(categoryService.maxCategory(id));
-		
-		List<PostVo> postList = postService.postList(categoryService.maxCategory(id));
-		
-		model.addAttribute("blogVo", blogVo);
-		model.addAttribute("cateList", cateList);
-		model.addAttribute("postVo", getPost);
+		model.addAttribute("blogVo", blogService.blogInformation(id));
+		model.addAttribute("cateList", categoryService.list(id));
+		model.addAttribute("postVo", postService.getPost(postVo, id));
 		model.addAttribute("userName", userService.getUserName(id));
-		model.addAttribute("postList", postList);
+		model.addAttribute("postList", postService.postList(id, postVo));
 		return "/blog/blog-main";
 	}
+
+
 }
