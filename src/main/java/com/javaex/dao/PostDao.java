@@ -39,7 +39,4 @@ public class PostDao {
 		return sqlSession.selectOne("post.allPost", cateNo);
 	}
 	
-	public int postCount(int cateNo) {
-		return sqlSession.selectOne("post.postCount", cateNo);
-	}
 }

@@ -28,7 +28,7 @@ public class PostService {
 			return postDao.selectPost(postVo); 
 		}else if(postVo.getCateNo() != 0){
 			System.out.println("카테고리값만 있을 경우");
-			if(postDao.postCount(postVo.getCateNo())!= 0) {
+			if(postDao.allPost(postVo.getCateNo())!= 0) {
 				postVo.setPostNo(postDao.maxPostNo(postVo.getCateNo()));
 			}
 			return postDao.selectPost(postVo); 

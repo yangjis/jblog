@@ -58,9 +58,4 @@
 		]]>
 	</select>
 	
-	<select id="postCount" parameterType="int" resultType="int">
-		<![CDATA[
-		select count(postNo) from post where cateNo = #{cateNo}
-		]]>
-	</select>
 </mapper>

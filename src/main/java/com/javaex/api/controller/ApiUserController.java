@@ -34,7 +34,6 @@ public class ApiUserController {
 	@RequestMapping("/cateInsert")
 	public CategoryVo cateInsert(@RequestBody CategoryVo categoryVo) {
 		System.out.println("카테고리 추가 api컨트롤러");
-		System.out.println("객체: " + categoryVo);
 		return categoryService.cateInsert(categoryVo);
 	}
 	
