@@ -14,9 +14,29 @@
 		]]>
 	</insert>
 	
-	<select id="postList" parameterType = "int" resultType="com.javaex.vo.PostVo">
+	<select id="postList" parameterType = "Map" resultType="com.javaex.vo.PostVo">
 		<![CDATA[
-		select postNo, cateNo, postTitle, postContent, to_char(regDate, 'YYYY/MM/dd') regDate from post where cateNo = #{max} order by postNo desc
+			select postNo,
+			       cateNo,
+			       postTItle,
+			       postContent,
+			       regDate
+			from (select rownum rn,
+			             postNo,
+			             cateNo,
+			             postTitle,
+			             postContent,
+			             regDate
+			      from(select postNo, 
+			                  cateNo, 
+			                  postTitle,
+			                  postContent,
+			                  regDate
+			           from post
+			           where cateNo = #{cateNo}
+			           order by postNo desc)) 
+			where rn >= #{start}
+			and rn <=#{end}
 		]]>
 	</select>
 	
@@ -29,6 +49,18 @@
 	<select id="maxPostNo" parameterType="int" resultType="int">
 		<![CDATA[
 		select max(postNo) from post where cateNo = #{cateNo}
+		]]>
+	</select>
+	
+	<select id="allPost" parameterType="int" resultType="int">
+		<![CDATA[
+		select count(*) from post where cateNo = #{cateNo} 
+		]]>
+	</select>
+	
+	<select id="postCount" parameterType="int" resultType="int">
+		<![CDATA[
+		select count(postNo) from post where cateNo = #{cateNo}
 		]]>
 	</select>
 </mapper>

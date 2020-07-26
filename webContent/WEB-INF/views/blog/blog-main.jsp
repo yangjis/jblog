@@ -35,7 +35,7 @@
 					</div>
 					<ul id="cateList" class="text-left">
 						<c:forEach items="${cateList}" var="cateVo">
-							<li><a href="${pageContext.request.contextPath}/${blogVo.id}?cateNo=${cateVo.cateNo}">${cateVo.cateName}</a></li>
+							<li><a href="${pageContext.request.contextPath}/${blogVo.id}?cateNo=${cateVo.cateNo}&pg=1">${cateVo.cateName}</a></li>
 						</c:forEach>
 					</ul>
 				</div>
@@ -77,13 +77,31 @@
 							<col style="">
 							<col style="width: 20%;">
 						</colgroup>
-						<c:forEach items="${postList}" var="postVo">
+						<c:forEach items="${postMap.postList}" var="postVo" >
 							<tr>
-								<td class="text-left"><a href="${pageContext.request.contextPath}/${blogVo.id}?cateNo=${postVo.cateNo}&postNo=${postVo.postNo}">${postVo.postTitle}</a></td>
+								<c:if test="${empty param.pg }">
+								<td class="text-left"><a href="${pageContext.request.contextPath}/${blogVo.id}?cateNo=${postVo.cateNo}&postNo=${postVo.postNo}&pg=1">${postVo.postTitle}</a></td>
+								</c:if>
+								
+								<c:if test="${!empty param.pg }">
+								<td class="text-left"><a href="${pageContext.request.contextPath}/${blogVo.id}?cateNo=${postVo.cateNo}&postNo=${postVo.postNo}&pg=${param.pg}">${postVo.postTitle}</a></td>
+								</c:if>
 								<td class="text-right">${postVo.regDate}</td>
 							</tr>
 						</c:forEach>
+						
 					</table>
+						<c:if test="${postMap.pg.pre eq true}">
+						<a href = "${pageContext.request.contextPath}/${blogVo.id}?cateNo=${postVo.cateNo}&postNo=${postVo.postNo}&pg=${postMap.pg.page_Start-1}">◀</a>
+						</c:if>
+					
+						<c:forEach var="pg" begin="${ postMap.pg.page_Start}" end="${postMap.pg.page_End}">
+							<a href = "${pageContext.request.contextPath}/${blogVo.id}?cateNo=${postVo.cateNo}&postNo=${postVo.postNo}&pg=${pg}">${pg }</a>
+						</c:forEach>
+						
+						<c:if test="${postMap.pg.next eq true}">
+						<a href = "${pageContext.request.contextPath}/${blogVo.id}?cateNo=${postVo.cateNo}&postNo=${postVo.postNo}&pg=${postMap.pg.page_End + 1}">▶</a>
+						</c:if>
 				</div>
 				<!-- //list -->
 			</div>

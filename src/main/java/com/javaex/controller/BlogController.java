@@ -6,11 +6,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.javaex.service.BlogService;
 import com.javaex.service.CategoryService;
 import com.javaex.service.PostService;
 import com.javaex.service.UserService;
+import com.javaex.util.Paging;
 import com.javaex.vo.PostVo;
 
 @RequestMapping("/{id}")
@@ -30,7 +32,7 @@ public class BlogController {
 	private UserService userService;
 	
 	@RequestMapping("")
-	public String BlogMain(@PathVariable String id, Model model, @ModelAttribute() PostVo postVo) {
+	public String BlogMain(@PathVariable String id, Model model, @ModelAttribute() PostVo postVo, @RequestParam("pg") int pg) {
 		System.out.println("블로그 메인");
 		
 		if(userService.idcheck(id) == true) {
@@ -41,7 +43,7 @@ public class BlogController {
 		model.addAttribute("cateList", categoryService.cateList(id));
 		model.addAttribute("postVo", postService.getPost(postVo, id));
 		model.addAttribute("userName", userService.getUserName(id));
-		model.addAttribute("postList", postService.postList(id, postVo));
+		model.addAttribute("postMap", postService.postList(id, postVo, pg));
 		return "/blog/blog-main";
 	}
 

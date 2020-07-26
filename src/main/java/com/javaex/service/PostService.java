@@ -1,12 +1,15 @@
 package com.javaex.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.javaex.dao.CategoryDao;
 import com.javaex.dao.PostDao;
+import com.javaex.util.Paging;
 import com.javaex.vo.PostVo;
 
 @Service
@@ -25,7 +28,9 @@ public class PostService {
 			return postDao.selectPost(postVo); 
 		}else if(postVo.getCateNo() != 0){
 			System.out.println("카테고리값만 있을 경우");
-			postVo.setPostNo(postDao.maxPostNo(postVo.getCateNo()));
+			if(postDao.postCount(postVo.getCateNo())!= 0) {
+				postVo.setPostNo(postDao.maxPostNo(postVo.getCateNo()));
+			}
 			return postDao.selectPost(postVo); 
 		}else{ 
 			System.out.println("파람값없음."); 
@@ -38,9 +43,25 @@ public class PostService {
 		return postDao.postWrite(postVo);
 	}
 	
-	public List<PostVo> postList(String id, PostVo postVo) {
-		if(postVo.getCateNo() != 0) return postDao.postList(postVo.getCateNo());
-		else return postDao.postList(categoryDao.maxCategoryNo(id));
+	public Map<String, Object> postList(String id, PostVo postVo, int pg) {
+		
+		if(postVo.getCateNo() == 0) {
+			postVo.setCateNo(categoryDao.maxCategoryNo(id));
+		}
+		
+		Paging pgVo = new Paging(5, 5, postDao.allPost(postVo.getCateNo()), pg);
+		
+		Map<String, Object> pgMap = new HashMap<String, Object>();
+		pgMap.put("start", pgVo.getWriting_Start());
+		pgMap.put("end", pgVo.getWriting_End());
+		pgMap.put("cateNo", postVo.getCateNo());
+		List<PostVo> postList = postDao.postList(pgMap);
+		
+		Map<String, Object> postMap = new HashMap<String, Object>();
+		postMap.put("postList", postList);
+		postMap.put("pg", pgVo);
+		
+		return postMap;
 	}
 
 }

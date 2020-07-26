@@ -64,7 +64,7 @@ public class AdminController {
 		
 		blogService.blogModify(blogVo, file, id);
 		
-		return "redirect:/"+id;
+		return "redirect:/"+id+"?pg=1";
 	}
 	
 	@RequestMapping("/category")
@@ -114,7 +114,7 @@ public class AdminController {
 		System.out.println("포스트 등록");
 		postService.postWrite(postVo, id);
 		
-		return "redirect:/"+id; 
+		return "redirect:/"+id+"?pg=1"; 
 	}
 	
 }

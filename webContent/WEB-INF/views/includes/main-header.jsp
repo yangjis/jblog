@@ -15,7 +15,7 @@
  			<c:if test="${!empty sessionScope.authUser.userNo }">
 			<!-- 로그인 후 메뉴 -->
 			<li><a href="${pageContext.request.contextPath}/user/logout">로그아웃</a></li>
-			<li><a href="${pageContext.request.contextPath}/${sessionScope.authUser.id}" target="_blank">내블로그</a></li>
+			<li><a href="${pageContext.request.contextPath}/${sessionScope.authUser.id}?pg=1" target="_blank">내블로그</a></li>
  			</c:if>
  			
  		</ul>

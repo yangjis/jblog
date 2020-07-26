@@ -23,8 +23,8 @@ public class PostDao {
 		return sqlSession.insert("post.postWrite", postVo);
 	}
 	
-	public List<PostVo> postList(int max){
-		return sqlSession.selectList("post.postList", max);
+	public List<PostVo> postList(Map<String, Object> postMap){
+		return sqlSession.selectList("post.postList", postMap);
 	}
 	
 	public PostVo selectPost(PostVo postVo) {
@@ -33,5 +33,13 @@ public class PostDao {
 	
 	public int maxPostNo(int cateNo) {
 		return sqlSession.selectOne("post.maxPostNo", cateNo);
+	}
+	
+	public int allPost(int cateNo) {
+		return sqlSession.selectOne("post.allPost", cateNo);
+	}
+	
+	public int postCount(int cateNo) {
+		return sqlSession.selectOne("post.postCount", cateNo);
 	}
 }
