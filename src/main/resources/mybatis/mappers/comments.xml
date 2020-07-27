@@ -1,4 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="comments">
+
+	<insert id="commentsInsert" parameterType="com.javaex.vo.CommentsVo" >
+		<selectKey keyProperty="cmtNo" resultType="int" order="BEFORE" >
+			select seq_comments_no.nextval from dual
+		</selectKey>
+		
+		<![CDATA[
+		insert into comments values(#{cmtNo}, #{postNo}, #{userNo}, #{cmtContent}, sysdate)	
+		]]>
+	</insert>
+	
+	<select id="commentsList" parameterType="com.javaex.vo.CommentsVo" resultType="com.javaex.vo.CommentsVo">
+		<![CDATA[
+		select c.cmtNo cmtNo, 
+               c.postNo postNo, 
+               c.userNo userNo, 
+               u.userName userName, 
+               c.cmtContent cmtContent, 
+               to_char(c.regDate, 'YYYY/MM/DD') regDate 
+      	from comments c, 
+            users u 
+      	where c.userNo = u.userNo
+        and postNo = #{postNo}
+		]]>
+	</select>
+	
+	<select id="getComments" parameterType="int" resultType="com.javaex.vo.CommentsVo">
+		<![CDATA[
+		select c.cmtNo cmtNo, 
+               c.postNo postNo, 
+               c.userNo userNo, 
+               u.userName userName, 
+               c.cmtContent cmtContent, 
+               to_char(c.regDate, 'YYYY/MM/DD') regDate 
+      	from comments c, 
+            users u 
+      	where c.userNo = u.userNo
+        and cmtNo = #{cmtNo} 
+		]]>
+	</select>
+	
+	<delete id="commentsDel" parameterType="int">
+	<![CDATA[
+	delete  from comments where cmtNo = #{cmtNo}
+	]]>
+	</delete>
 </mapper>

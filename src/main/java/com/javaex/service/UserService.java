@@ -1,5 +1,7 @@
 package com.javaex.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,14 +25,12 @@ public class UserService {
 	private CategoryDao categoryDao; 
 	
 	
-	public boolean idcheck(String id) {
+	public boolean idcheck(UsersVo vo) {
 		System.out.println("서비스/아이디체크");
-		UsersVo userVo = userDao.idcheck(id);
+		int userStr = userDao.idcheck(vo);
+		boolean result = false;
 		
-		boolean result = true;
-		
-		if(userVo == null);
-		else result = false;
+		if(userStr == 0)result = true;
 		
 		return result;
 	}
@@ -58,8 +58,6 @@ public class UserService {
 	}
 	
 	public UsersVo login(UsersVo userVo) {
-		System.out.println("로그인 서비스");
-		
 		return userDao.login(userVo);
 	}
 	
@@ -67,4 +65,12 @@ public class UserService {
 		return userDao.getUserName(id);
 	}
 	
+	public List<UsersVo> search(String keyword, String radio){
+		
+		if("optTitle".equals(radio)) {
+			return userDao.titleSearch(keyword);
+		}else {
+			return userDao.nameSearch(keyword);
+		}
+	}
 }

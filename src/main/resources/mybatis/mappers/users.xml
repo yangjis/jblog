@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="users">
 	
-	<select id="idcheck" parameterType="String" resultType="com.javaex.vo.UsersVo">
+	<select id="idcheck" parameterType="com.javaex.vo.UsersVo" resultType="int">
 		<![CDATA[
-		select id from users where id = #{id}
+		select count(*) from users where id=#{id}
 		]]>
 	</select>
 	
@@ -20,7 +20,8 @@
 			   u.id id,
 			   u.userName userName, 
 			   u.joinDate joinDate, 
-			   b.blogTitle blogTitle 
+			   b.blogTitle blogTitle,
+			   b.logoFile logoFile 
 		from users u, blog b 
 		where u.id = b.id 
 		and u.id=#{id} 
@@ -34,6 +35,20 @@
 		]]>
 	</select>
 	
+	<select id="titleSearch" parameterType="String" resultType="com.javaex.vo.UsersVo">
+		<![CDATA[
+		select u.userNo userNo, u.id id, u.userName userName, u.password password, to_char(u.joinDate, 'YYYY-MM-dd') joinDate, b.blogTitle blogTitle, b.logoFile logoFile
+		from users u, blog b
+		where u.id(+) = b.id and b.blogTitle LIKE '%'||#{keyword}||'%'
+		]]>
+	</select>
 	
+	<select id="nameSearch" parameterType="String" resultType="com.javaex.vo.UsersVo">
+		<![CDATA[
+		select u.userNo userNo, u.id id, u.userName userName, u.password password, to_char(u.joinDate, 'YYYY-MM-dd') joinDate, b.blogTitle blogTitle, b.logoFile logoFile
+		from users u, blog b
+		where u.id(+) = b.id and u.userName LIKE '%'||#{keyword}||'%'
+		]]>
+	</select>
 	
 </mapper>

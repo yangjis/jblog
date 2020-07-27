@@ -56,7 +56,7 @@ public class BlogService {
 				byte[]  fileData = file.getBytes();
 				OutputStream out = new FileOutputStream(filePath);
 				BufferedOutputStream bout = new BufferedOutputStream(out);
-					
+					 
 				bout.write(fileData);
 				bout.close();
 					

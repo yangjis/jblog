@@ -24,17 +24,24 @@ public class PostService {
 	public PostVo getPost(PostVo postVo, String id) {
 		
 		if(postVo.getCateNo() != 0 && postVo.getPostNo() != 0) {
-			System.out.println("카테고리값과 포스트값이 둘 다 있을 경우"); 
-			return postDao.selectPost(postVo); 
+			System.out.println("카테고리값과 포스트값이 둘 다 있을 경우");
+			PostVo result = postDao.selectPost(postVo); 
+			result.setId(id);
+			return result;
+			
 		}else if(postVo.getCateNo() != 0){
 			System.out.println("카테고리값만 있을 경우");
 			if(postDao.allPost(postVo.getCateNo())!= 0) {
 				postVo.setPostNo(postDao.maxPostNo(postVo.getCateNo()));
 			}
-			return postDao.selectPost(postVo); 
+			PostVo result = postDao.selectPost(postVo); 
+			result.setId(id);
+			return result;  
 		}else{ 
 			System.out.println("파람값없음."); 
-			return postDao.getPost(categoryDao.maxCategoryNo(id));
+			PostVo result = postDao.getPost(categoryDao.maxCategoryNo(id));
+			result.setId(id);
+			return result;
 		}
 	}
 	

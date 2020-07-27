@@ -4,7 +4,7 @@
 	
 	<select id="getPost" parameterType = "int" resultType="com.javaex.vo.PostVo">
 		<![CDATA[
-			select postNo, cateNo, postTitle, postContent, to_char(regDate, 'YYYY/MM/dd') regDate from post where cateNo=#{max} and postNo=(select max(postNo) from post)
+			select postNo, cateNo, postTitle, postContent, to_char(regDate, 'YYYY/MM/dd') regDate from post where cateNo=#{max} and postNo=(select max(postNo) from post where cateNo=#{max})
 		]]>
 	</select>
 	

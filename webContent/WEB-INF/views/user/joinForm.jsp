@@ -17,7 +17,7 @@
 	
 
 		<div>		
-			<form id="joinForm" method="post" action="${pageContext.request.contextPath}/user/join">
+			<form onsubmit="return validate();" id="joinForm" method="post" action="${pageContext.request.contextPath}/user/join">
 				<table>
 			      	<colgroup>
 						<col style="width: 100px;">
@@ -31,7 +31,7 @@
 		      		</tr>
 		      		<tr>
 		      			<td></td>
-		      			<td id="tdMsg" colspan="2" ></td>
+		      			<td id="tdMsg" colspan="2" value=""></td>
 		      		</tr> 
 		      		<tr>
 		      			<td><label for="txtPassword">패스워드</label> </td>
@@ -66,17 +66,43 @@
 
 </body>
 <script type="text/javascript">
+
+	function validate(){
+		var id = $("#txtId").val();
+	    var password = $("#txtPassword").val();
+		var name = $("#txtUserName").val();
+		var check = $("#tdMsg").text();
+		
+		if("" == id){
+			alert("아이디를 입력해주세요.");
+	         return false;
+		}else if("" == password){
+			alert("비밀번호를 입력해주세요.");
+			return false;
+		}else if("" == name){
+			alert("이름을 입력해주세요.");
+			return false;
+		}else if(check == "" || check == "다른 아이디로 가입해 주세요."){
+			alert("아이디 중복체크를 해주세요.");
+			return false;
+		}else if(!$("#chkAgree").prop("checked")){
+			alert("약관에 동의해주세요.");
+			return false;
+		}else{
+			return true;
+		}
+	}
+
 $("#btnIdCheck").on("click", function(){
 	
 	var uId = $("#txtId").val();
-	console.log(uId);
-	var userInfo = {userId: uId};
+	var usersVo = {id: uId};
 	$.ajax({
 		
 		url : "${pageContext.request.contextPath }/api/idcheck", 		
 		type : "post",
-		//contentType : "application/json",
-		data : {userId: uId},
+		contentType : "application/json",
+		data : JSON.stringify(usersVo),
 		dataType : "json",
 		success : function(result){
 			/*성공시 처리해야될 코드 작성*/
@@ -94,6 +120,8 @@ $("#btnIdCheck").on("click", function(){
 	});
 	
 });
+
+
 </script>
 
 

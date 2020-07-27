@@ -7,8 +7,8 @@
 <head>
 <meta charset="UTF-8">
 <title>JBlog</title>
-<link href="${pageContext.request.contextPath }/assets/css/jblog.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.12.4.js"></script>
+<link href="${pageContext.request.contextPath }/assets/css/jblog.css" rel="stylesheet" type="text/css">
 
 </head>
 
@@ -56,7 +56,41 @@
 					</div>
 					<!-- //post -->
 				</c:if>
-				
+				<!-- 댓글등록하는 테이블 -->
+	            <c:if test="${authUser.id != null && !empty postVo}">
+	               <div  class="reply">
+	                     <table style="width: 100%;height: 40px;">
+	                     <colgroup>
+	                        <col style="">
+	                        <col style="width: 80%;">
+	                        <col style="">
+	                     </colgroup>
+	                     
+	                        <tr>
+	                           <td> 
+	                           ${userName}
+	                           </td>
+	                           <td>
+	                           <input type="text" style="width: 100%;height: 80%;" id ="cmtContent" name="cmtContent" value="">
+	                           <td>
+	                           <td><input type="button" style="width: 90%; height: 80%;" value="댓글등록" id="btnReply"></td>
+	                        </tr>
+	                     </table>
+	               </div>
+	            </c:if>
+	            
+	            <!-- 댓글리스트 -->
+	            <table style="width: 100%;height: 40px;">
+		            <colgroup>
+		               <col style="">
+		               <col style="width: 70%;">
+		               <col style="">
+		               <col style="">
+		            </colgroup>
+		            <tbody id = "commentList">
+		            </tbody>
+				</table>		               	
+						
 				<c:if test="${empty postVo}">
 					<div id="postBox" class="clearfix">
 							<div id="postTitle" class="text-left"><strong>등록된 글이 없습니다.</strong></div>
@@ -117,5 +151,133 @@
 	</div>
 	<!-- //wrap -->
 </body>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		
+		 fetchList();
+	});
+	
+	$("#commentList").on("click","img.btnCateDel", function(){
+		console.log("삭제하려는가?");
+		var $this = $(this);
+		var cmtNo = $this.data("cmtno");
+		
+		console.log(cmtNo);
+		
+		$.ajax({
+			
+			url : "${pageContext.request.contextPath }/api/commentsDel",		
+			type : "post",
+			contentType : "application/json",
+			data : JSON.stringify(cmtNo),
+			dataType : "json",
+			success : function(list){
+				console.log("성공");
+				var tr = $this.parent().parent();			
+				tr.remove();
+				
+				/*성공시 처리해야될 코드 작성*/
+			},
+			error : function(XHR, status, error) {
+				console.error(status + " : " + error);
+			}
+		});
+	});
+	
+	function fetchList(){
+		var postNo = ${postVo.postNo};
+		var postVo = {postNo: postNo};
+		var uNo = "${authUser.userNo}";
+		
+		$.ajax({
+			url : "${pageContext.request.contextPath }/api/commentsList",		
+			type : "post",
+			contentType : "application/json",
+			data : JSON.stringify(postVo),
+			dataType : "json",
+			success : function(list){
+
+				for(var i = 0; i <= list.length; i++){
+					
+					var str = "";
+					str += "<tr>";
+					str += "<td>";
+					str += list[i].userName;
+					str += "</td>";
+					str += "<td>";
+					str += list[i].cmtContent;
+					str += "</td>";
+					str += "<td>";
+					str += list[i].regDate;
+					str += "</td>";
+					str += "<td>";
+					
+					if(list[i].userNo == uNo){
+						str += "<img src ='";
+						str += "${pageContext.request.contextPath}";
+						str += "/assets/images/delete.jpg'  data-cmtno='"+list[i].cmtNo+"' class='btnCateDel'>";
+					}
+					str += "</td>";					
+					str += "</tr>";
+					
+					$("#commentList").prepend(str);
+				}
+				
+				
+				
+				/*성공시 처리해야될 코드 작성*/
+			},
+			error : function(XHR, status, error) {
+				console.error(status + " : " + error);
+			}
+		});
+	};
+
+
+	$("#btnReply").on("click", function(){
+	    var cmtContent = $("#cmtContent").val();
+	    var postNo = ${postVo.postNo };
+	    var userNo = "${sessionScope.authUser.userNo}";
+	    
+	    var comentsVo ={cmtContent: cmtContent,
+	                	postNo: postNo,
+	                	userNo: userNo}
+	    
+	    $.ajax({
+	       
+	       url : "${pageContext.request.contextPath }/api/commentsInsert",      
+	       type : "post",
+	       contentType : "application/json",
+	       data : JSON.stringify(comentsVo),
+	       dataType : "json",
+	       success : function(cmt){
+	           var str = "";
+	          
+	          str += "<tr>";
+	          str += "<td>"+cmt.userName+"</td>";
+	          str += "<td>"+cmt.cmtContent+"</td>";
+	          str += "<td>"+cmt.regDate;
+	          str += "</td>";
+	          str += "<td>";
+	          str += "<img class='btnCateDel' src='";
+	          str += "${pageContext.request.contextPath}/assets/images/delete.jpg' data-cmtno='"+cmt.cmtNo+"'>";
+	          str += "</td></tr>";
+	           
+	          $("input[name='cmtContent']").val("");
+	           
+	          $("#commentList").prepend(str);    
+	          
+	       },
+	       error : function(XHR, status, error) {
+	          console.error(status + " : " + error);
+	       }
+	    }); 
+	 });
+	
+	
+	 
+
+</script>
 
 </html>

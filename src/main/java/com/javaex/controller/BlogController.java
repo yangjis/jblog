@@ -12,8 +12,8 @@ import com.javaex.service.BlogService;
 import com.javaex.service.CategoryService;
 import com.javaex.service.PostService;
 import com.javaex.service.UserService;
-import com.javaex.util.Paging;
 import com.javaex.vo.PostVo;
+import com.javaex.vo.UsersVo;
 
 @RequestMapping("/{id}")
 @Controller
@@ -34,11 +34,12 @@ public class BlogController {
 	@RequestMapping("")
 	public String BlogMain(@PathVariable String id, Model model, @ModelAttribute() PostVo postVo, @RequestParam("pg") int pg) {
 		System.out.println("블로그 메인");
+		UsersVo vo = new UsersVo();
+		vo.setId(id);
 		
-		if(userService.idcheck(id) == true) {
+		if(userService.idcheck(vo) == true) {
 			return "/error/403";
 		}
-		
 		model.addAttribute("blogVo", blogService.blogInformation(id));
 		model.addAttribute("cateList", categoryService.cateList(id));
 		model.addAttribute("postVo", postService.getPost(postVo, id));

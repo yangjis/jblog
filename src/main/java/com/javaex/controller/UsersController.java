@@ -41,7 +41,7 @@ public class UsersController {
 	public String login(@ModelAttribute UsersVo userVo, HttpSession session) {
 		System.out.println("로그인 ");
 		
-		UsersVo authUser = userService.login(userVo); 
+		UsersVo authUser = userService.login(userVo);
 		
 		if(authUser != null) {
 			System.out.println("로그인 성공");
