@@ -73,12 +73,18 @@
 					var str = "";
 					
 					str += "<hr>";
-					str += "<tr><td><a href='${pageContext.request.contextPath}/";
+					str += "<tr><td>";
+					str += "<a href='${pageContext.request.contextPath}/";
 					str += result[i].id;
-					str += "?pg=1'><img style='width: 100px;' src='${pageContext.request.contextPath}/upload/";
+					str += "?pg=1'>";
+					if("default"==result[i].logoFile ){
+					str +="<img style='width: 100px;' src='${pageContext.request.contextPath}/assets/images/spring-logo.jpg'>";
+					}else{
+					str += "<img style='width: 100px;' src='${pageContext.request.contextPath}/upload/";
 					str += result[i].logoFile+"'></a>";
+					}
 					str += "</td>";
-					str += "<td>";
+					str += "<td>"
 					str += result[i].blogTitle;
 					str += "</td>";
 					str += "<td>";
