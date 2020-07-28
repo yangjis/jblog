@@ -56,7 +56,7 @@
 		var keyword = $("#keyword").val();
 		var radio = $('input[name="kwdOpt"]').val();
 		
-		$("#resultList *").remove();
+		$("#resultList *").empty();
 		
 		$.ajax({
 			
