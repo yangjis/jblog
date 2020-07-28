@@ -56,7 +56,7 @@
 		var keyword = $("#keyword").val();
 		var radio = $('input[name="kwdOpt"]').val();
 		
-		$("#resultList *").empty();
+		$("#resultList").empty();
 		
 		$.ajax({
 			
@@ -98,7 +98,6 @@
 					str += "</tr>";
 
 					$("#resultList").prepend(str);
-					$("#keyword").val("");
 				}
 			},
 			error : function(XHR, status, error) {
