@@ -52,10 +52,11 @@
 </body>
 <script type="text/javascript">
 	$("#btnSearch").on("click", function(){
-		$("#resultList *").remove();
 		
 		var keyword = $("#keyword").val();
 		var radio = $('input[name="kwdOpt"]').val();
+		
+		$("#resultList *").remove();
 		
 		$.ajax({
 			
@@ -68,6 +69,7 @@
 			success : function(result){
 				/*성공시 처리해야될 코드 작성*/
 				console.log("성공이야");
+				
 				
 				for(var i =0; i <= result.length; i++){
 					var str = "";
@@ -95,7 +97,8 @@
 					str += "</td>";
 					str += "</tr>";
 
-					$("#resultList").prepend(str);					
+					$("#resultList").prepend(str);
+					$("#keyword").val("");
 				}
 			},
 			error : function(XHR, status, error) {
