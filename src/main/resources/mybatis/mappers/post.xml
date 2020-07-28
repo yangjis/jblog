@@ -58,4 +58,10 @@
 		]]>
 	</select>
 	
+	<select id="countPost" parameterType = "int" resultType="int">
+		<![CDATA[
+		select count(postNo) from post where cateNo = #{max}
+		]]>
+	</select>
+	
 </mapper>

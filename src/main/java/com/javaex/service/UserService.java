@@ -7,9 +7,11 @@ import org.springframework.stereotype.Service;
 
 import com.javaex.dao.BlogDao;
 import com.javaex.dao.CategoryDao;
+import com.javaex.dao.PostDao;
 import com.javaex.dao.UserDao;
 import com.javaex.vo.BlogVo;
 import com.javaex.vo.CategoryVo;
+import com.javaex.vo.PostVo;
 import com.javaex.vo.UsersVo;
 
 @Service
@@ -22,7 +24,10 @@ public class UserService {
 	private BlogDao blogDao;
 	
 	@Autowired
-	private CategoryDao categoryDao; 
+	private CategoryDao categoryDao;
+	
+	@Autowired
+	private PostDao postDao;
 	
 	
 	public boolean idcheck(UsersVo vo) {

@@ -21,6 +21,7 @@ public class PostService {
 	@Autowired
 	private CategoryDao categoryDao;
 	
+	
 	public PostVo getPost(PostVo postVo, String id) {
 		
 		if(postVo.getCateNo() != 0 && postVo.getPostNo() != 0) {
@@ -39,9 +40,17 @@ public class PostService {
 			return result;  
 		}else{ 
 			System.out.println("파람값없음."); 
-			PostVo result = postDao.getPost(categoryDao.maxCategoryNo(id));
-			result.setId(id);
-			return result;
+			int max = categoryDao.maxCategoryNo(id);
+			
+				if(postDao.countPost(max) != 0 ) {
+					System.out.println("카테고리는 있지만 포스트가 하나다 없을때");
+					PostVo result = postDao.getPost(max);
+					result.setId(id);
+					return result;
+				}
+				PostVo result = new PostVo();;
+				result.setId(id);
+				return result;
 		}
 	}
 	
