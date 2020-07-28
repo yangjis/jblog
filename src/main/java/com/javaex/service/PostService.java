@@ -32,25 +32,28 @@ public class PostService {
 			
 		}else if(postVo.getCateNo() != 0){
 			System.out.println("카테고리값만 있을 경우");
-			if(postDao.allPost(postVo.getCateNo())!= 0) {
+			if(postDao.countPost(postVo.getCateNo())!= 0) {
+				System.out.println("포스트가 하나이상 있을경우");
 				postVo.setPostNo(postDao.maxPostNo(postVo.getCateNo()));
+				PostVo result = postDao.selectPost(postVo); 
+				result.setId(id);
+				return result;  
+			}else {
+				PostVo result = new PostVo();
+				return result;
 			}
-			PostVo result = postDao.selectPost(postVo); 
-			result.setId(id);
-			return result;  
 		}else{ 
 			System.out.println("파람값없음."); 
 			int max = categoryDao.maxCategoryNo(id);
-			
 				if(postDao.countPost(max) != 0 ) {
-					System.out.println("카테고리는 있지만 포스트가 하나다 없을때");
 					PostVo result = postDao.getPost(max);
 					result.setId(id);
 					return result;
+				}else {
+					System.out.println("카테고리는 있지만 포스트가 하나도 없을때");
+					PostVo result = new PostVo();
+					return result;
 				}
-				PostVo result = new PostVo();;
-				result.setId(id);
-				return result;
 		}
 	}
 	

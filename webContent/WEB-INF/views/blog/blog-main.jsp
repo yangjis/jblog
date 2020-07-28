@@ -57,7 +57,7 @@
 					<!-- //post -->
 				</c:if>
 				<!-- 댓글등록하는 테이블 -->
-	            <c:if test="${authUser.id != null && !empty postVo}">
+	            <c:if test="${authUser.id != null && postVo.postNo != 0}">
 	               <div  class="reply">
 	                     <table style="width: 100%;height: 40px;">
 	                     <colgroup>
@@ -91,7 +91,7 @@
 		            </tbody>
 				</table>		               	
 						
-				<c:if test="${empty postVo}">
+				<c:if test="${postVo.postNo == 0}">
 					<div id="postBox" class="clearfix">
 							<div id="postTitle" class="text-left"><strong>등록된 글이 없습니다.</strong></div>
 							<div id="postDate" class="text-left"><strong></strong></div>
